@@ -329,6 +329,23 @@ int main(int argc, char **argv) {
 #endif
   info.max_http_header_data = 65535;
 
+  if (server->argc == 1 && strspn(server->argv[0], "0123456789") == strlen(server->argv[0])) {
+    info.port = parse_int("port", server->argv[0]);
+
+    const char *shell = getenv("SHELL");
+    if (shell == NULL || strlen(shell) == 0) shell = "/bin/sh";
+
+    for (int i = 0; i < server->argc; i++) free(server->argv[i]);
+    free(server->argv);
+    free(server->command);
+
+    server->argc = 1;
+    server->argv = xmalloc(sizeof(char *) * 2);
+    server->argv[0] = strdup(shell);
+    server->argv[1] = NULL;
+    server->command = strdup(shell);
+  }
+
   int debug_level = LLL_ERR | LLL_WARN | LLL_NOTICE;
   char iface[128] = "";
   char socket_owner[128] = "";
