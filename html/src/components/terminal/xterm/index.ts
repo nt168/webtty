@@ -130,8 +130,8 @@ export class Xterm {
     @bind
     public async refreshToken() {
         try {
-            const resp = await fetch(this.options.tokenUrl);
-            if (resp.ok) {
+	    const resp = await fetch(this.options.tokenUrl, { credentials: 'include' });
+	    if (resp.ok) {
                 const json = await resp.json();
                 this.token = json.token;
             }

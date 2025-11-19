@@ -104,8 +104,8 @@ static void print_help() {
           "    -s, --signal            Signal to send to the command when exit it (default: 1, SIGHUP)\n"
           "    -w, --cwd               Working directory to be set for the child program\n"
           "    -a, --url-arg           Allow client to send command line arguments in URL (eg: http://localhost:7681?arg=foo&arg=bar)\n"
-          "    -W, --writable          Allow clients to write to the TTY (readonly by default)\n"
-          "    -t, --client-option     Send option to client (format: key=value), repeat to add more options\n"
+	  "    -W, --writable          Allow clients to write to the TTY (enabled by default)\n"
+	  "    -t, --client-option     Send option to client (format: key=value), repeat to add more options\n"
           "    -T, --terminal-type     Terminal type to report, default: xterm-256color\n"
           "    -O, --check-origin      Do not allow websocket connection from different origin\n"
           "    -m, --max-clients       Maximum clients to support (default: 0, no limit)\n"
@@ -142,6 +142,7 @@ static void print_config() {
   lwsl_notice("  start command: %s\n", server->command);
   lwsl_notice("  close signal: %s (%d)\n", server->sig_name, server->sig_code);
   lwsl_notice("  terminal type: %s\n", server->terminal_type);
+  lwsl_notice("  writable: %s\n", server->writable ? "true" : "false");
   if (endpoints.parent[0]) {
     lwsl_notice("endpoints:\n");
     lwsl_notice("  base-path: %s\n", endpoints.parent);
@@ -167,6 +168,7 @@ static struct server *server_new(int argc, char **argv, int start) {
   ts = xmalloc(sizeof(struct server));
 
   memset(ts, 0, sizeof(struct server));
+  ts->writable = true;
   ts->client_count = 0;
   ts->sig_code = SIGHUP;
   sprintf(ts->terminal_type, "%s", "xterm-256color");

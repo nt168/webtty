@@ -75,7 +75,7 @@ OPTIONS:
     -s, --signal            Signal to send to the command when exit it (default: 1, SIGHUP)
     -w, --cwd               Working directory to be set for the child program
     -a, --url-arg           Allow client to send command line arguments in URL (eg: http://localhost:7681?arg=foo&arg=bar)
-    -W, --writable          Allow clients to write to the TTY (readonly by default)
+    -W, --writable          Allow clients to write to the TTY (enabled by default)
     -t, --client-option     Send option to client (format: key=value), repeat to add more options
     -T, --terminal-type     Terminal type to report, default: xterm-256color
     -O, --check-origin      Do not allow websocket connection from different origin
